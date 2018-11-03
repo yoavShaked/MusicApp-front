@@ -4,62 +4,49 @@ import Validator from './validation';
 
 const validator = new Validator();
 
-export default class SignUpForm extends Component {
+export default class LoginForm extends Component {
 
     state = {
         email: '',
-        name: '',
         password: '',
         inValid: {
             email: false,
-            name: false,
             password: false
         }
     }
 
     submitHandler = (event) => {
         event.preventDefault();
-        const { email, name, password } = this.state;
-        const user = {
+        const {email, password} = this.state;
+        const authUser = {
             email,
-            name,
             password
-        };
-
+        }
         if (this.isValid()) {
-            //send new user to server 
+            //send authUser to server
         }
     }
 
     isValid() {
-        const { email, name, password } = this.state.inValid
-        return email === false && name === false && password === false;
+        return this.state.inValid.email === false && this.state.inValid.password === false;
     }
 
     blurEmail = (event) => {
-        let {inValid} = this.state;
+        let { inValid } = this.state;
         inValid.email = !validator.validateEmail(event.target.value);
         this.setState({ inValid });
         this.setState({ email: event.target.value });
     }
 
-    blurName = (event) => {
-        const { inValid } = this.state;
-        inValid.name = !validator.validateName(event.target.value);
-        this.setState({ inValid });
-        this.setState({ name: event.target.value });
-    }
-
     blurPassword = (event) => {
-        const { inValid } = this.state;
+        let { inValid } = this.state;
         inValid.password = !validator.validatePassword(event.target.value);
         this.setState({ inValid });
         this.setState({ password: event.target.value });
     }
 
     render() {
-        const { email, name, password } = this.state.inValid;
-
+        const { email, password } = this.state.inValid;
         return (
             <Form onSubmit={this.submitHandler}>
                 <FormGroup row>
@@ -68,16 +55,7 @@ export default class SignUpForm extends Component {
                         <Input invalid={email} onBlur={this.blurEmail} type="email" name="email" id="email" placeholder="youremail@.com" />
                         <FormFeedback invalid={email}>
                             Uh oh! Looks like there is an issue with your email. Please input a correct
-                            email.
-                        </FormFeedback>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label sm={2}>Name</Label>
-                    <Col sm={9}>
-                        <Input invalid={name} onBlur={this.blurName} type="text" name="username" id="user" />
-                        <FormFeedback invalid={name}>
-                            Name should contains 2-50 letters.
+                                email.
                         </FormFeedback>
                     </Col>
                 </FormGroup>
@@ -85,11 +63,11 @@ export default class SignUpForm extends Component {
                     <Label sm={2}>Password</Label>
                     <Col sm={9}>
                         <Input invalid={password} onBlur={this.blurPassword} type="password" name="password" id="password" />
-                        <FormFeedback invalid={password}>
-                            Password should contains 7-20 cheracters.
-                        </FormFeedback>
                     </Col>
                 </FormGroup>
+                <FormFeedback invalid={password || email}>
+                    Wrong email or password.
+                </FormFeedback>
                 <Button type="submit">Submit</Button>
             </Form>
         );

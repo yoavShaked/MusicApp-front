@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ModalRegister from './modalRegister';
 import SignUpForm from './signUpForm';
+import LoginForm from './loginForm';
 
 export default class LandingPage extends Component {
 
@@ -32,6 +33,7 @@ export default class LandingPage extends Component {
                     </ul>
                 </nav>
                 <ModalRegister toggle={this.toggleLogin} show={this.state.showModalLogin} title="Login">
+                    <LoginForm />
                 </ModalRegister>
                 <ModalRegister toggle={this.toggleSignUp} show={this.state.showModalSinUp} title="Creat Account">
                     <SignUpForm />
