@@ -1,58 +1,33 @@
 import React, { Component } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
-import Validator from './validation';
+import withValidation from './HOC/userForm';
 
-const validator = new Validator();
-
-export default class LoginForm extends Component {
-
-    state = {
-        email: '',
-        password: '',
-        inValid: {
-            email: false,
-            password: false
-        }
-    }
+class LoginForm extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        const {email, password} = this.state;
+        const {email, password} = this.props.inValid;
         const authUser = {
             email,
             password
+        };
+        if(this.isValid()){
+            // send auth user to the server.
         }
-        if (this.isValid()) {
-            //send authUser to server
-        }
     }
 
-    isValid() {
-        return this.state.inValid.email === false && this.state.inValid.password === false;
-    }
-
-    blurEmail = (event) => {
-        let { inValid } = this.state;
-        inValid.email = !validator.validateEmail(event.target.value);
-        this.setState({ inValid });
-        this.setState({ email: event.target.value });
-    }
-
-    blurPassword = (event) => {
-        let { inValid } = this.state;
-        inValid.password = !validator.validatePassword(event.target.value);
-        this.setState({ inValid });
-        this.setState({ password: event.target.value });
+    isValid(){
+        return this.props.inValid.email === false && this.props.inValid.password === false;
     }
 
     render() {
-        const { email, password } = this.state.inValid;
+        const { email, password } = this.props.inValid;
         return (
             <Form onSubmit={this.submitHandler}>
                 <FormGroup row>
                     <Label sm={2}>Email</Label>
                     <Col sm={9}>
-                        <Input invalid={email} onBlur={this.blurEmail} type="email" name="email" id="email" placeholder="youremail@.com" />
+                        <Input invalid={email} onBlur={this.props.blurEmail} type="email" name="email" id="email" placeholder="youremail@.com" />
                         <FormFeedback invalid={email}>
                             Uh oh! Looks like there is an issue with your email. Please input a correct
                                 email.
@@ -62,7 +37,7 @@ export default class LoginForm extends Component {
                 <FormGroup row>
                     <Label sm={2}>Password</Label>
                     <Col sm={9}>
-                        <Input invalid={password} onBlur={this.blurPassword} type="password" name="password" id="password" />
+                        <Input invalid={password} onBlur={this.props.blurPassword} type="password" name="password" id="password" />
                     </Col>
                 </FormGroup>
                 <FormFeedback invalid={password || email}>
@@ -73,3 +48,5 @@ export default class LoginForm extends Component {
         );
     }
 }
+
+export default withValidation(LoginForm);
