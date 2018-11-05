@@ -3,6 +3,9 @@ import {Col,Button,Form,FormGroup,Label,Input,FormFeedback,Fade} from 'reactstra
 import Validator from '../service/validation';
 import withValidation from './HOC/userForm';
 import {signUp} from './../actions/index';
+import {connect} from 'react-redux';
+import {bindActionCreators, compose} from 'redux';
+
 const validator = new Validator();
 
 class SignUpForm extends Component {
@@ -31,11 +34,7 @@ class SignUpForm extends Component {
         };
 
         if (this.isValid()) {
-            signUp(user)
-                .then(signInUser => this.setState({signInUser}))
-                .catch((err) => {
-                    this.setState({fadeIn: true});
-                });
+            this.props.signUp(user);
         }
     }
 
@@ -90,9 +89,9 @@ class SignUpForm extends Component {
                         <Button type="submit">Submit</Button>
                     </Col>
                     <Col sm={5}>
-                        <Fade in={this.state.fadeIn} tag="h6" className="mt-3">
-                            User allready exsits.
-                        </Fade>
+                    <Label>
+                        {this.props.errorMsg}
+                    </Label>
                     </Col>
                 </FormGroup>
             </Form>
@@ -100,4 +99,17 @@ class SignUpForm extends Component {
     }
 }
 
-export default withValidation(SignUpForm);
+function mapStateToProps(state){
+    return {
+        errorMsg: state.auth.errorMsg,
+        
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({
+        signUp
+    }, dispatch);
+}
+
+export default  connect(mapStateToProps, mapDispatchToProps)(withValidation(SignUpForm));
