@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Col,Button,Form,FormGroup,Label,Input,FormFeedback,Fade} from 'reactstrap';
+import {Col,Button,Form,FormGroup,Label,Input,FormFeedback} from 'reactstrap';
 import Validator from '../service/validation';
 import withValidation from './HOC/userForm';
 import {signUp} from './../actions/index';
 import {connect} from 'react-redux';
-import {bindActionCreators, compose} from 'redux';
+import {bindActionCreators} from 'redux';
 
 const validator = new Validator();
 
@@ -15,7 +15,6 @@ class SignUpForm extends Component {
         inValid: {
             name: false
         },
-        fadeIn: false,
         signInUser: {
             name: '',
             email: '',
@@ -102,7 +101,6 @@ class SignUpForm extends Component {
 function mapStateToProps(state){
     return {
         errorMsg: state.auth.errorMsg,
-        
     };
 }
 
