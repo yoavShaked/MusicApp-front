@@ -38,6 +38,7 @@ export default class LandingPage extends Component {
                 <ModalRegister toggle={this.toggleSignUp} show={this.state.showModalSinUp} title="Creat Account">
                     <SignUpForm />
                 </ModalRegister>
+
             </div>
         );
     }

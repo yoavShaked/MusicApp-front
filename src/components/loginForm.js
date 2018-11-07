@@ -10,8 +10,8 @@ class LoginForm extends Component {
     submitHandler = (event) => {
         event.preventDefault();
         const { email, password } = this.props;
-        const authUser = {email,password};
-        
+        const authUser = { email, password };
+
         if (this.isValid()) {
             this.props.login(authUser);
         }
@@ -23,6 +23,7 @@ class LoginForm extends Component {
 
     render() {
         const { email, password } = this.props.inValid;
+        console.log(this.state.videos);
         return (
             <Form onSubmit={this.submitHandler}>
                 <FormGroup row>
@@ -37,22 +38,28 @@ class LoginForm extends Component {
                         <Input invalid={password} onBlur={this.props.blurPassword} type="password" name="password" id="password" />
                     </Col>
                 </FormGroup>
-                <Button type="submit">Submit</Button>
-                <Label>{this.props.loginFaild}</Label>
+                <FormGroup row>
+                    <Col sm={5}>
+                        <Button type="submit">Submit</Button>
+                    </Col>
+                    <Col sm={5}>
+                        <Label>{this.props.loginFaild}</Label>
+                    </Col>
+                </FormGroup>
             </Form>
         );
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
         loginFaild: state.auth.loginFaild,
     };
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        login
+        login,
     }, dispatch);
 }
 
