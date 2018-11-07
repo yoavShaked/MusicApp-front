@@ -10,7 +10,7 @@ export default class Searchbar extends React.Component {
         return (
             <div>
                 <Label>Search</Label>
-                <Input
+                <Input width={200}
                     onBlur={this.search}
                     placeholder='music' />
             </div>

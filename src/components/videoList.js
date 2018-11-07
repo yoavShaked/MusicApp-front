@@ -1,7 +1,11 @@
 import React from 'react';
 import YTSearch  from 'youtube-api-search';
 import Searchbar from './searchbar';
-const api_key = 'AIzaSyB8IqscTHsJ7MfOayJX6oS0z9MdMW3HsR4';
+
+const env = require('dotenv');
+env.config();
+
+
 
 export default class ListItems extends React.Component{
 
@@ -12,7 +16,7 @@ export default class ListItems extends React.Component{
 
     getResults = (term) => {
         this.setState({term});
-        YTSearch({key: api_key, term, maxResults: 20, type: 'video', part: 'snippet'}, videos => this.setState({videos}));
+        YTSearch({key: process.env.API_KEY, term, maxResults: 20, type: 'video', part: 'snippet'}, videos => this.setState({videos}));
     }
 
     render(){
